@@ -1,18 +1,18 @@
 const DOMNodeCollection = require('./dom_node_collection');
-let loaded = false;
+let docLoaded = false;
 const functionQueue = [];
 
-window.$l = (arg) => {
-  if (typeof arg === "function") {
-    if (!loaded) {
-      functionQueue.push(arg);
+window.$l = (input) => {
+  if (typeof input === "function") {
+    if (!docLoaded) {
+      functionQueue.push(input);
     } else {
-      arg();
+      input();
     }
-  } else if (arg instanceof HTMLElement) {
-    return new DOMNodeCollection([arg]);
-  } else if (typeof arg === "string") {
-    return new DOMNodeCollection(Array.from(document.querySelectorAll(arg)));
+  } else if (input instanceof HTMLElement) {
+    return new DOMNodeCollection([input]);
+  } else if (typeof input === "string") {
+    return new DOMNodeCollection(Array.from(document.querySelectorAll(input)));
   }
 };
 
@@ -46,6 +46,6 @@ window.$l.ajax = (options) => {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  loaded = true;
+  docLoaded = true;
   functionQueue.forEach(func => func());
 });
