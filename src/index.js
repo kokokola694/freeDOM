@@ -23,26 +23,32 @@ window.$l.extend = (...args) => {
 }
 
 window.$l.ajax = (options) => {
-  const defaultReq = {
+  const defaultRequest = {
     method: "GET",
     url: "",
     success: () => {},
     error: () => {},
     data: {},
     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    dataType: 'json'
   };
 
-  const request = window.$l.extend(defaultReq, options);
-  const xhr = new XMLHttpRequest();
-  xhr.open(request.method, request.url);
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      request.success(xhr.response);
-    } else {
-      request.error(xhr.response);
+  const request = window.$l.extend(defaultRequest, options);
+
+  return new Promise (
+    function (resolve, reject) {
+      const xhr = new XMLHttpRequest();
+      xhr.open(request.method, request.url);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.response));
+        } else {
+          reject(JSON.parse(xhr.response));
+        }
+      }
+      xhr.send(JSON.stringify(request.data));
     }
-  }
-  xhr.send(JSON.stringify(request.data));
+  )
 }
 
 document.addEventListener("DOMContentLoaded", function(){
