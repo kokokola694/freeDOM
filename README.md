@@ -72,7 +72,7 @@ $l = (input) => {
 };
 ```
 
-`$l.ajax`
+### `$l.ajax`
 
 freeDOM allows the user to send AJAX requests and receive the returned `Promise`. AJAX requests are made using vanilla JavaScript by specifying the `method`, `url`, `data`, `success`, and `error` in an `XMLHttpRequest`.
 
