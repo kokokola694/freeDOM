@@ -5,6 +5,16 @@ freeDOM is a JavaScript library inspired by jQuery.
 ## Live Demo
 [Try it now!](https://kokokola694.github.io/freeDOM/)
 
+![page](images/page.png)
+
+This demo sends AJAX requests to the Open Trivia Database to set up its questions. The list of questions is set up using `freeDOM` methods such as `$l`, `append`, and `addClass`. Event listeners `on` and `off` are used to track progress of the game. Try it out!
+
+## How to Use
+Simply download the library into your project and enter the following script into your file.
+```html
+<script type="text/javascript" src="./dist/main.js"></script>
+```
+
 ## Features
 * Select DOM elements and their parents/children
 * Manipulate DOM element content and attributes/class
