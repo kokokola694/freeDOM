@@ -111,4 +111,5 @@ $l.ajax = (options) => {
 ```
 
 ## Future plans
-...
+* Add timer for answering questions.
+* Add category selector.

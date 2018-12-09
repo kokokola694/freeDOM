@@ -53,12 +53,33 @@ window.$l.ajax = (options) => {
 document.addEventListener("DOMContentLoaded", function(){
   docLoaded = true;
   functionQueue.forEach(func => func());
+  // retrieveCategories();
   $l('.start-btn').on('click', (e) => {
     e.preventDefault();
     $l('.start-btn').html("RESTART");
-    retrieveQuestions(3);
+    $l('.score').html(`SCORE: 0 / 5`);
+    retrieveQuestions(5);
   });
 });
+
+// const retrieveCategories = () => {
+//   const select = $l('select');
+//   $l.ajax({
+//     method: "GET",
+//     url: "https://opentdb.com/api_category.php"
+//   }).then(categories => {
+//     select.empty();
+//     categories.trivia_categories.forEach( category => {
+//       select.append(`<option id='opt-${category.id}' value='${category.id}'>${category.name}</option>`)
+//     });
+//     categories.trivia_categories.forEach( category => {
+//       $l(`#opt-${category.id}`).on('click', (e) => {
+//         e.preventDefault();
+//         $l('select').attr('val', category.id);
+//       })
+//     })
+//   })
+// }
 
 const retrieveQuestions = (n) => {
   $l.ajax({
@@ -86,9 +107,23 @@ const displayQuestions = (results) => {
 
 }
 
+shuffle = (array) => {
+
+  for (let i = array.length-1; i >=0; i--) {
+
+    const randomIndex = Math.floor(Math.random()*(i+1));
+    const itemAtIndex = array[randomIndex];
+
+    array[randomIndex] = array[i];
+    array[i] = itemAtIndex;
+  }
+  return array;
+}
+
 const setupAnswers = (result, i) => {
   const answers = $l(`.ans-${i}`);
-  const result_ans = result.incorrect_answers.concat([result.correct_answer]);
+  let result_ans = result.incorrect_answers.concat([result.correct_answer]);
+  result_ans = shuffle(result_ans);
   result_ans.forEach((ans, j) => {
     answers.append(`<li id='q-${i}-c-${j}' class='ans-choice'>${ans}</li>`);
   })
@@ -98,14 +133,17 @@ const setupAnswers = (result, i) => {
       if (result.correct_answer === answers.children().nodes[j].innerHTML) {
         $l(`#q-${i}`).removeClass('red');
         $l(`#q-${i}`).addClass('green');
-        $l(`#q-${i}-c-${j}`).addClass('bold');
-        $l(`.ans-${i}`).children().off('click');
       } else {
         $l(`#q-${i}`).removeClass('green');
         $l(`#q-${i}`).addClass('red');
-        $l(`#q-${i}-c-${j}`).addClass('bold');
-        $l(`.ans-${i}`).children().off('click');
       }
+      $l(`#q-${i}-c-${j}`).addClass('bold');
+      $l(`#q-${i}-c-${j}`).addClass('highlight');
+      $l(`.ans-${i}`).children().off('click');
+      const score = $l('.green').nodes.length;
+      const red = $l('.red').nodes.length;
+      $l('.score').html(`SCORE: ${score} / 5`);
+      if (red + score === 5) $l('.score').addClass('bold');
     })
   })
 
