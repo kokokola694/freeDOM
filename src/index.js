@@ -143,9 +143,11 @@ const setupAnswers = (result, i) => {
       const score = $l('.green').nodes.length;
       const red = $l('.red').nodes.length;
       $l('.score').html(`SCORE: ${score} / 5`);
-      $l('.r').addClass('correct');
-      $l('.r').addClass('bold');
-      if (red + score === 5) $l('.score').addClass('bold');
+      if (red + score === 5) {
+        $l('.score').addClass('bold');
+        $l('.r').addClass('correct');
+        $l('.r').addClass('bold');
+      }
     })
   })
 
