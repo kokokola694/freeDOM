@@ -2,6 +2,9 @@
 
 freeDOM is a JavaScript library inspired by jQuery.
 
+## Live Demo
+[Try it now!](https://kokokola694.github.io/freeDOM/)
+
 ## Features
 * Select DOM elements and their parents/children
 * Manipulate DOM element content and attributes/class
@@ -106,9 +109,6 @@ $l.ajax = (options) => {
   )
 }
 ```
-
-## Try it out!
-...
 
 ## Future plans
 ...
