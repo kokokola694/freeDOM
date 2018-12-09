@@ -95,8 +95,7 @@ const displayQuestions = (results) => {
     list.append(`
       <li id="q-${i}" class="question">
         <h3>${result.question}</h3>
-        <ul class="ans-list ans-${i}">
-        </ul>
+        <ul class="ans-list ans-${i}"></ul>
       </li>`
     );
   });
@@ -107,13 +106,10 @@ const displayQuestions = (results) => {
 
 }
 
-shuffle = (array) => {
-
+const shuffle = (array) => {
   for (let i = array.length-1; i >=0; i--) {
-
     const randomIndex = Math.floor(Math.random()*(i+1));
     const itemAtIndex = array[randomIndex];
-
     array[randomIndex] = array[i];
     array[i] = itemAtIndex;
   }
@@ -125,8 +121,12 @@ const setupAnswers = (result, i) => {
   let result_ans = result.incorrect_answers.concat([result.correct_answer]);
   result_ans = shuffle(result_ans);
   result_ans.forEach((ans, j) => {
-    answers.append(`<li id='q-${i}-c-${j}' class='ans-choice'>${ans}</li>`);
-  })
+    if (result.correct_answer === ans) {
+      answers.append(`<li id='q-${i}-c-${j}' class='ans-choice r'>${ans}</li>`);
+    } else {
+      answers.append(`<li id='q-${i}-c-${j}' class='ans-choice'>${ans}</li>`);
+    }
+  });
 
   result_ans.forEach((ans, j) => {
     $l(`#q-${i}-c-${j}`).on('click', () => {
@@ -143,6 +143,8 @@ const setupAnswers = (result, i) => {
       const score = $l('.green').nodes.length;
       const red = $l('.red').nodes.length;
       $l('.score').html(`SCORE: ${score} / 5`);
+      $l('.r').addClass('correct');
+      $l('.r').addClass('bold');
       if (red + score === 5) $l('.score').addClass('bold');
     })
   })
